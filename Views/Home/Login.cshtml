@@ -1,0 +1,175 @@
+﻿@model LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    :root {
+        --dark-green: #2e5339;
+        --sage-green: #88b04b;
+        --sage-green-dark: #6c8b3e;
+        --muted-text: #4a5c4c;
+        --white-bg: rgba(255, 255, 255, 0.95);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-image: url('https://assets.venuecrew.com/wp-content/uploads/2024/08/26230728/barbican-conservatory.jpg');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 20px 20px;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark-green);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-size: 0.95rem;
+    }
+
+        .navbar a {
+            color: #88b04b;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+            .navbar a:hover {
+                text-decoration: underline;
+            }
+
+    .login-container {
+        background-color: var(--white-bg);
+        border-radius: 16px;
+        box-shadow: 0 0 20px rgba(0, 50, 0, 0.3);
+        width: 100%;
+        max-width: 400px;
+        padding: 30px;
+    }
+
+    .login-header {
+        background-color: var(--dark-green);
+        color: white;
+        padding: 15px;
+        border-radius: 12px 12px 0 0;
+        text-align: center;
+        margin: -30px -30px 20px -30px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        color: var(--dark-green);
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+    }
+
+        input:focus, select:focus {
+            border-color: var(--sage-green);
+            box-shadow: 0 0 5px rgba(136, 176, 75, 0.5);
+            outline: none;
+        }
+
+    .btn-submit {
+        background-color: var(--sage-green);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.2s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: var(--sage-green-dark);
+        }
+
+    .footer-text {
+        text-align: center;
+        color: var(--muted-text);
+        font-size: 0.9rem;
+        margin-top: 15px;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+        color: #d9534f;
+    }
+</style>
+
+
+
+<div class="login-container">
+    <div class="login-header">
+        <h2>AgriEnergy Connect - Login</h2>
+    </div>
+    <form asp-action="Login" method="post">
+        <div>
+            <label asp-for="Name">Full Name</label>
+            <input asp-for="Name" placeholder="Enter full name" required />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="Email">Email Address</label>
+            <input asp-for="Email" placeholder="Enter email" required />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" type="password" placeholder="Enter password" required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label for="role">Select Your Role</label>
+            <select id="role" name="role" required>
+                <option value="Farmer">Farmer</option>
+                <option value="Employee">Employee</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-submit">Login</button>
+    </form>
+    <div class="footer-text">
+        <small>Please login to continue</small>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

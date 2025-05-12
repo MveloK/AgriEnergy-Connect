@@ -1,0 +1,156 @@
+﻿@model EAPD7111_Agri_Energy_Connect.Models.ProductModel
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<style>
+    body {
+        background-image: url('https://d3k81ch9hvuctc.cloudfront.net/company/VM3rh3/images/36966765-ffee-4539-b8a3-0536b39541af.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    navbar {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark-green);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-size: 0.95rem;
+    }
+
+    .navbar a {
+        color: #88b04b;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+    .content-container {
+        background-color: rgba(245, 255, 245, 0.95);
+        border-radius: 16px;
+        padding: 30px;
+        max-width: 1000px;
+        margin: 50px auto;
+        box-shadow: 0 10px 25px rgba(0, 64, 0, 0.2);
+    }
+
+    h2 {
+        color: #1B4332;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-label {
+        color: #2D6A4F;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #2D6A4F;
+        border-color: #2D6A4F;
+    }
+
+        .btn-primary:hover {
+            background-color: #1B4332;
+            border-color: #1B4332;
+        }
+
+    .btn-view-products {
+        background-color: #40916c;
+        border-color: #40916c;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+    }
+
+        .btn-view-products:hover {
+            background-color: #2d6a4f;
+            border-color: #2d6a4f;
+            color: white;
+        }
+
+    .form-control {
+        border: 1px solid #B7E4C7;
+        background-color: #F8FFF8;
+    }
+
+    .table {
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .table th {
+            background-color: #2D6A4F;
+            color: #fff;
+        }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+</style>
+
+<div class="content-container">
+
+    <div style="text-align: right; margin-bottom: 15px;">
+        <a asp-action="MyProducts" asp-controller="Farmer" class="btn-view-products">
+            View My Products
+        </a>
+    </div>
+
+    <h2>Add New Product</h2>
+
+    <form method="post" asp-action="Dashboardfarm" asp-controller="Farmer">
+        <input type="hidden" asp-for="FarmerId" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductType" class="form-label"></label>
+            <input asp-for="ProductType" class="form-control" />
+            <span asp-validation-for="ProductType" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DateAdded" class="form-label"></label>
+            <input asp-for="DateAdded" class="form-control" type="date" />
+            <span asp-validation-for="DateAdded" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Add Product</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

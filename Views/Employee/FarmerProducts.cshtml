@@ -1,0 +1,152 @@
+﻿@model EAPD7111_Agri_Energy_Connect.Models.ProductFilterModel
+
+@{
+    ViewData["Title"] = "Farmer Products";
+}
+
+<style>
+    body {
+        background-image: url('https://assets.venuecrew.com/wp-content/uploads/2024/08/26230728/barbican-conservatory.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark-green);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-size: 0.95rem;
+    }
+
+        .navbar a {
+            color: #88b04b;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+            .navbar a:hover {
+                text-decoration: underline;
+            }
+
+    .content-container {
+        background-color: rgba(245, 255, 245, 0.95); /* sage green tint with transparency */
+        border-radius: 16px;
+        padding: 30px;
+        max-width: 1000px;
+        margin: 50px auto;
+        box-shadow: 0 10px 25px rgba(0, 64, 0, 0.2);
+    }
+
+    h2 {
+        color: #1B4332; /* dark green */
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-label {
+        color: #2D6A4F;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background-color: #2D6A4F;
+        border-color: #2D6A4F;
+    }
+
+        .btn-primary:hover {
+            background-color: #1B4332;
+            border-color: #1B4332;
+        }
+
+    .form-control {
+        border: 1px solid #B7E4C7;
+        background-color: #F8FFF8;
+    }
+
+    .table {
+        background-color: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .table th {
+            background-color: #2D6A4F;
+            color: #fff;
+        }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+</style>
+
+<div class="content-container">
+    <h2>Products Supplied by Farmer #@Model.FarmerId</h2>
+
+    <form method="get" asp-action="FarmerProducts" asp-controller="Employee">
+        <input type="hidden" name="id" value="@Model.FarmerId" />
+
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label class="form-label">From Date</label>
+                <input type="date" name="fromDate" value="@Model.FromDate?.ToString("yyyy-MM-dd")" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">To Date</label>
+                <input type="date" name="toDate" value="@Model.ToDate?.ToString("yyyy-MM-dd")" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Product Type</label>
+                <select name="productType" class="form-control">
+                    <option value="">-- All Types --</option>
+                    @foreach (var type in Model.AvailableProductTypes)
+                    {
+                        var selected = Model.ProductType == type ? "selected" : "";
+                        <option value="@type" selected="@selected">@type</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    @if (!Model.Products.Any())
+    {
+        <p class="text-muted text-center">No products found for the selected criteria.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.ProductType</td>
+                        <td>@product.Description</td>
+                        <td>@product.DateAdded.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

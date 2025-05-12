@@ -1,0 +1,132 @@
+﻿@model EAPD7111_Agri_Energy_Connect.Models.FarmerModel
+
+@{
+    ViewData["Title"] = "Add New Farmer";
+}
+
+<style>
+    body {
+        background-image: url('https://assets.venuecrew.com/wp-content/uploads/2024/08/26230728/barbican-conservatory.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark-green);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        font-size: 0.95rem;
+    }
+
+        .navbar a {
+            color: #88b04b;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+            .navbar a:hover {
+                text-decoration: underline;
+            }
+
+    .form-container {
+        background-color: rgba(245, 255, 245, 0.95); 
+        border-radius: 16px;
+        padding: 30px;
+        max-width: 600px;
+        margin: 50px auto;
+        box-shadow: 0 10px 25px rgba(0, 64, 0, 0.2);
+    }
+
+    h2 {
+        color: #1B4332; 
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        color: #2D6A4F; 
+        font-weight: 600;
+    }
+
+    .btn-success {
+        background-color: #2D6A4F;
+        border-color: #2D6A4F;
+    }
+
+        .btn-success:hover {
+            background-color: #1B4332;
+            border-color: #1B4332;
+        }
+
+    .btn-secondary {
+        background-color: #95D5B2;
+        border-color: #95D5B2;
+        color: #1B4332;
+    }
+
+        .btn-secondary:hover {
+            background-color: #74C69D;
+            border-color: #74C69D;
+            color: #fff;
+        }
+
+    input.form-control {
+        border: 1px solid #B7E4C7;
+        background-color: #F8FFF8;
+    }
+</style>
+
+<div class="form-container">
+    <h2>Add New Farmer</h2>
+
+    <form asp-action="CreateFarmer" method="post">
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="UserId" class="form-label"></label>
+            <input asp-for="UserId" class="form-control" />
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success">Save</button>
+            <a asp-action="Dashboard" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
