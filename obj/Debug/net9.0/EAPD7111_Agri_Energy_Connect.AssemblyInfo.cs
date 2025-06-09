@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EAPD7111_Agri_Energy_Connect")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35133830db9002ce88334c2868e539694587f0ed")]
 [assembly: System.Reflection.AssemblyProductAttribute("EAPD7111_Agri_Energy_Connect")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EAPD7111_Agri_Energy_Connect")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

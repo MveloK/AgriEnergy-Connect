@@ -308,3 +308,4 @@ C:\Users\User\source\repos\EAPD7111_Agri_Energy_Connect\obj\Debug\net9.0\refint\
 C:\Users\User\source\repos\EAPD7111_Agri_Energy_Connect\obj\Debug\net9.0\EAPD7111_Agri_Energy_Connect.pdb
 C:\Users\User\source\repos\EAPD7111_Agri_Energy_Connect\obj\Debug\net9.0\EAPD7111_Agri_Energy_Connect.genruntimeconfig.cache
 C:\Users\User\source\repos\EAPD7111_Agri_Energy_Connect\obj\Debug\net9.0\ref\EAPD7111_Agri_Energy_Connect.dll
+C:\Users\User\source\repos\EAPD7111_Agri_Energy_Connect\obj\Debug\net9.0\EAPD7111_Agri_Energy_Connect.sourcelink.json

@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using EAPD7111_Agri_Energy_Connect.Data;
-using EAPD7111_Agri_Energy_Connect.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+using System.Threading.Tasks;
+using System.Linq;
+using System;
+using System.Collections.Generic;
+
+using EAPD7111_Agri_Energy_Connect.Data;
+using EAPD7111_Agri_Energy_Connect.Models;
 
 namespace EAPD7111_Agri_Energy_Connect.Controllers
 {
@@ -30,11 +34,15 @@ namespace EAPD7111_Agri_Energy_Connect.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)?.Trim().ToLower();
+            var farmer = await _context.Farmers
+                .FirstOrDefaultAsync(f => f.UserId.ToLower().Trim() == userId);
 
             if (farmer == null)
+            {
+                Console.WriteLine($"Dashboardfarm: No farmer found for userId {userId}");
                 return Unauthorized();
+            }
 
             model.FarmerId = farmer.FarmerId;
             model.DateAdded = DateTime.Now;
@@ -45,21 +53,25 @@ namespace EAPD7111_Agri_Energy_Connect.Controllers
             return RedirectToAction("MyProducts");
         }
 
+        [HttpGet]
         public async Task<IActionResult> MyProducts()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (userId == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)?.Trim().ToLower();
+            if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToAction("MyProducts", "Farmer"); 
+                Console.WriteLine("MyProducts: UserId is null or empty");
+                return Unauthorized();
             }
 
             var farmer = await _context.Farmers
                 .Include(f => f.Products)
-                .FirstOrDefaultAsync(f => f.UserId == userId);
+                .FirstOrDefaultAsync(f => f.UserId.ToLower().Trim() == userId);
 
             if (farmer == null)
+            {
+                Console.WriteLine($"MyProducts: No farmer found for userId {userId}");
                 return Unauthorized();
+            }
 
             var products = farmer.Products?.ToList() ?? new List<ProductModel>();
             return View(products);
@@ -72,8 +84,8 @@ namespace EAPD7111_Agri_Energy_Connect.Controllers
             if (product == null)
                 return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)?.Trim().ToLower();
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId.ToLower().Trim() == userId);
 
             if (farmer == null || product.FarmerId != farmer.FarmerId)
                 return Unauthorized();
@@ -92,8 +104,8 @@ namespace EAPD7111_Agri_Energy_Connect.Controllers
             if (existingProduct == null)
                 return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)?.Trim().ToLower();
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId.ToLower().Trim() == userId);
 
             if (farmer == null || existingProduct.FarmerId != farmer.FarmerId)
                 return Unauthorized();
@@ -118,8 +130,8 @@ namespace EAPD7111_Agri_Energy_Connect.Controllers
             if (product == null)
                 return NotFound();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId == userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)?.Trim().ToLower();
+            var farmer = await _context.Farmers.FirstOrDefaultAsync(f => f.UserId.ToLower().Trim() == userId);
 
             if (farmer == null || product.FarmerId != farmer.FarmerId)
                 return Unauthorized();
@@ -128,6 +140,15 @@ namespace EAPD7111_Agri_Energy_Connect.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("MyProducts");
+        }
+
+        // Debug endpoint to help inspect current logged-in user and claims
+        [HttpGet]
+        public IActionResult DebugUser()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var claims = User.Claims.Select(c => $"{c.Type} = {c.Value}");
+            return Content($"UserId: {userId}\nClaims:\n{string.Join("\n", claims)}");
         }
     }
 }
